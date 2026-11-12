@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Recipe</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+{% include 'myapp/navbar.html' %}
+    <div class="form-container">
+        <h2>Edit Recipe</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="input-group">
+                <label>Dish Name</label>
+                <input type="text" name="title" value="{{ recipe.title }}" required>
+            </div>
+            <div class="input-group">
+                <label>Prep Time (Minutes)</label>
+                <input type="number" name="prep_time" value="{{ recipe.prep_time }}" required>
+            </div>
+            <div class="input-group">
+                <label>Ingredients</label>
+                <textarea name="ingredients" rows="3" style="width: 100%; padding: 10px; border: 2px solid #f39c12; border-radius: 8px; box-sizing: border-box;" required>{{ recipe.ingredients }}</textarea>
+            </div>
+            <button type="submit">Update Recipe</button>
+        </form>
+        <p style="text-align: center; margin-top: 15px;">
+            <a href="{% url 'recipe_list' %}" style="color: #d35400;">Cancel</a>
+        </p>
+    </div>
+
+</body>
+</html>

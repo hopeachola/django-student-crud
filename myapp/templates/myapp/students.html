@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Management CRUD</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body style="height: auto; padding: 90px 20px 40px; flex-direction: column; gap: 30px;">
+    {% include 'myapp/navbar.html' %}
+
+    <!-- CREATE FORM -->
+    <div class="form-container">
+        <h2>Register Student</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="input-group">
+                <label>Full Name</label>
+                <input type="text" name="full_name" required>
+            </div>
+            <div class="input-group">
+                <label>Registration Number</label>
+                <input type="text" name="reg_number" required>
+            </div>
+            <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" name="email" required>
+            </div>
+            <div class="input-group">
+                <label>Course</label>
+                <input type="text" name="course" required>
+            </div>
+            <button type="submit">Add Student</button>
+        </form>
+    </div>
+
+    <!-- READ, UPDATE & DELETE LIST -->
+    <div class="form-container" style="max-width: 700px;">
+        <h2>Enrolled Students</h2>
+        {% for student in students %}
+            <div style="border-bottom: 1px solid #eee; padding: 15px 0;">
+                <h3 style="margin: 0; color: #d35400;">{{ student.full_name }} ({{ student.reg_number }})</h3>
+                <p style="color: #555; margin: 6px 0;"><strong>Course:</strong> {{ student.course }} | <strong>Email:</strong> {{ student.email }}</p>
+                <a href="{% url 'update_student' student.id %}" style="color: #2980b9; font-weight: bold; margin-right: 15px;">Edit</a>
+                <a href="{% url 'delete_student' student.id %}" style="color: #e74c3c; font-weight: bold;">Delete</a>
+            </div>
+        {% empty %}
+            <p style="text-align: center; color: #777;">No students added yet. Register one above!</p>
+        {% endfor %}
+    </div>
+
+</body>
+</html>

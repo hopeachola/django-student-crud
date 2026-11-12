@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chef Recipes CRUD</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body style="height: auto; padding: 40px 20px; flex-direction: column; gap: 30px;">
+{% include 'myapp/navbar.html' %}
+    <!-- CREATE FORM -->
+    <div class="form-container">
+        <h2>Add New Recipe</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="input-group">
+                <label>Dish Name</label>
+                <input type="text" name="title" required>
+            </div>
+            <div class="input-group">
+                <label>Prep Time (Minutes)</label>
+                <input type="number" name="prep_time" required>
+            </div>
+            <div class="input-group">
+                <label>Ingredients</label>
+                <textarea name="ingredients" rows="3" style="width: 100%; padding: 10px; border: 2px solid #f39c12; border-radius: 8px; box-sizing: border-box;" required></textarea>
+            </div>
+            <button type="submit">Save Recipe</button>
+        </form>
+    </div>
+
+    <!-- READ, UPDATE & DELETE LIST -->
+    <div class="form-container" style="max-width: 600px;">
+        <h2>Saved Recipes</h2>
+        {% for recipe in recipes %}
+            <div style="border-bottom: 1px solid #eee; padding: 15px 0;">
+                <h3 style="margin: 0; color: #d35400;">{{ recipe.title }} ({{ recipe.prep_time }} mins)</h3>
+                <p style="color: #555; margin: 8px 0;">{{ recipe.ingredients }}</p>
+                <a href="{% url 'update_recipe' recipe.id %}" style="color: #2980b9; font-weight: bold; margin-right: 15px;">Edit</a>
+                <a href="{% url 'delete_recipe' recipe.id %}" style="color: #e74c3c; font-weight: bold;">Delete</a>
+            </div>
+        {% empty %}
+            <p style="text-align: center; color: #777;">No recipes saved yet. Add one above!</p>
+        {% endfor %}
+    </div>
+
+</body>
+</html>
